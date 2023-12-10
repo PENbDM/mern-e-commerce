@@ -15,9 +15,10 @@ import Pay from "./components/Pay";
 import Sucess from "./pages/Sucess";
 import { useSelector } from "react-redux";
 import User from "./pages/User";
+export const vercelURL = "https://mern-e-commerce-pi.vercel.app/";
+
 function App() {
   const user = useSelector((state) => state.user.currentUser);
-
   return (
     <Router>
       <Routes>
