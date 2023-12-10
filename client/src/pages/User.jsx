@@ -6,13 +6,17 @@ import { useDispatch } from "react-redux";
 import { userRequest } from "../requestMethods";
 import Orders from "../components/Orders";
 import Footer from "../components/Footer";
+import { vercelURL } from "../App";
+
+import axios from "axios";
 import { Link } from "react-router-dom";
 import "../style.scss";
 function User() {
+  const URL = "http://localhost:5000/api";
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-
+  console.log(user.user);
   // Use an object to store the expanded state for each order
   const [expandedOrders, setExpandedOrders] = useState({});
 
@@ -29,18 +33,26 @@ function User() {
 
   const getProductDetails = async (productId) => {
     try {
-      const res = await userRequest.get(`/products/find/${productId}`);
+      const res = await axios.get(`${URL}/products/find/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${user.user.token}`,
+        },
+      });
       return res.data;
     } catch (err) {
       console.error("Error fetching product details:", err);
       return null;
     }
   };
-
+  console.log(user);
   useEffect(() => {
     const getOrder = async () => {
       try {
-        const res = await userRequest.get(`/orders/find/${user.user._id}`);
+        const res = await axios.get(`${URL}/orders/find/${user.user._id}`, {
+          headers: {
+            Authorization: `Bearer ${user.user.token}`,
+          },
+        });
         const ordersWithProductDetails = await Promise.all(
           res.data.map(async (order) => {
             const productsWithDetails = await Promise.all(

@@ -5,7 +5,13 @@ import { userRequest } from "../requestMethods";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeProducts } from "../redux/cartRedux";
+import { vercelURL } from "../App";
+
+import axios from "axios";
 const Success = () => {
+  const URL = "http://localhost:5000/api";
+  const user = useSelector((state) => state.user.currentUser);
+
   const location = useLocation();
   //in Cart.jsx I sent data and cart. Please check that page for the changes.(in video it's only data)
   const currentUser = useSelector((state) => state.user.currentUser.user);
@@ -19,19 +25,27 @@ const Success = () => {
   useEffect(() => {
     const createOrder = async () => {
       try {
-        console.log(currentUser);
-        const res = await userRequest.post("/orders", {
-          userId: currentUser._id,
-          products: cart.products.map((item) => ({
-            productId: item._id,
-            quantity: item.quantity,
-            color: item.color,
-            size: item.size,
-          })),
-          status: "success",
-          amount: cart.total,
-          address: data.billing_details.address,
-        });
+        // Add null checks before accessing nested properties
+        const res = await axios.post(
+          `${URL}/orders`,
+          {
+            userId: currentUser._id,
+            products: cart.products.map((item) => ({
+              productId: item._id,
+              quantity: item.quantity,
+              color: item.color,
+              size: item.size,
+            })),
+            status: "success",
+            amount: cart.total,
+            address: data?.billing_details?.address, // Add null checks
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user?.user?.token}`, // Add null checks
+            },
+          }
+        );
         setOrderId(res.data._id);
         dispatch(removeProducts());
       } catch (err) {
@@ -39,8 +53,14 @@ const Success = () => {
       }
     };
 
-    createOrder();
-  }, [cart, data, currentUser]);
+    createOrder(); // Вызываем функцию createOrder внутри useEffect
+  }, [
+    currentUser,
+    cart,
+    data?.billing_details?.address, // Add null checks
+    user?.user?.token, // Add null checks
+    dispatch,
+  ]);
   return (
     <div
       style={{

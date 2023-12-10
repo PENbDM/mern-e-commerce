@@ -11,6 +11,9 @@ import { useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { addProducts, updateTotalQuantity } from "../redux/cartRedux";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { vercelURL } from "../App";
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -128,13 +131,15 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
+  const URL = "http://localhost:5000/api";
+
   console.log(quantity);
   const dispatch = useDispatch(); // Add this line to get the dispatch function
 
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await publicRequest.get("/products/find/" + id);
+        const res = await axios.get(`${URL}/products/find/` + id);
         setProduct(res.data);
       } catch (error) {}
     };

@@ -1,18 +1,23 @@
-import axios from "axios";
+// import axios from "axios";
 
-const BASE_URL = "https://mern-e-commerce-pi.vercel.app/api/";
-// Get user data from local storage
-const persistedRoot = localStorage.getItem("persist:root");
-const userDataFromLocalStorage = persistedRoot
-  ? JSON.parse(JSON.parse(persistedRoot).user)
-  : null;
+// const BASE_URL = "http://localhost:5000/api";
 
-// Check if user data and accessToken exist
-const TOKEN = userDataFromLocalStorage?.currentUser?.user.token || null;
-export const publicRequest = axios.create({
-  baseURL: BASE_URL,
-});
-export const userRequest = axios.create({
-  baseURL: BASE_URL,
-  headers: { token: `Bearer ${TOKEN}` },
-});
+// // Function to create userRequest instance with the latest token
+// export const createUserRequest = () => {
+//   const persistedRoot = localStorage.getItem("persist:root");
+//   const userDataFromLocalStorage = persistedRoot
+//     ? JSON.parse(JSON.parse(persistedRoot).user)
+//     : null;
+//   const TOKEN = userDataFromLocalStorage?.currentUser?.user.token || null;
+//   console.log(TOKEN);
+//   return axios.create({
+//     baseURL: BASE_URL,
+//     headers: { token: `Bearer ${TOKEN}` },
+//   });
+// };
+// // Initial instances
+// export const publicRequest = axios.create({
+//   baseURL: BASE_URL,
+// });
+
+// export let userRequest = createUserRequest();

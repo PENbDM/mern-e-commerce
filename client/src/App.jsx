@@ -16,6 +16,7 @@ import Sucess from "./pages/Sucess";
 import { useSelector } from "react-redux";
 import User from "./pages/User";
 export const vercelURL = "https://mern-e-commerce-pi.vercel.app/";
+export const URL = "http://localhost:5000/api";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);

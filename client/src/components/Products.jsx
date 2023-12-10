@@ -3,6 +3,8 @@ import { popularProducts } from "../data";
 import Product from "./Product";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { vercelURL } from "../App";
+import { URL } from "../App";
 const Container = styled.div`
   padding: 20px;
   display: flex;
@@ -18,9 +20,7 @@ const Products = ({ category, filters, sort }) => {
     const getProducts = async () => {
       try {
         const response = await axios.get(
-          category
-            ? `http://localhost:5000/api/products?category=${category}`
-            : `http://localhost:5000/api/products`
+          category ? `${URL}/products?category=${category}` : `${URL}/products`
         );
         setProducts(response.data);
       } catch (err) {}

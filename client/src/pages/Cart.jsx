@@ -9,6 +9,8 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { userRequest } from "../requestMethods";
+import { vercelURL } from "../App";
+
 import { useNavigate } from "react-router-dom";
 import {
   removeProducts,
@@ -16,6 +18,7 @@ import {
   removeProdFromCart,
   updateTotalQuantity,
 } from "../redux/cartRedux";
+import axios from "axios";
 const Key_Stripe =
   "pk_test_51OC6VFFV3Wv9D2rIaJGTtMXkQ9UV8oDen0vGLLxGbcDrp4YDEt8O9EWyeMv5D9jxt7xwHTqVvwsJN6Wx6fy2UIiX00ssrTlGdg";
 const Container = styled.div``;
@@ -170,6 +173,9 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
+  const URL = "http://localhost:5000/api";
+
+  const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   window.scrollTo(0, 0);
@@ -185,23 +191,33 @@ const Cart = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await userRequest.post("/checkout/payment", {
-          tokenId: stripeToken.id,
-          amount: cart.total * 100,
-          products: cart.products.map((product) => ({
-            productId: product._id,
-            quantity: product.quantity,
-            color: product.color,
-            size: product.size,
-          })),
-        });
+        const res = await axios.post(
+          `${URL}/checkout/payment`,
+          {
+            tokenId: stripeToken.id,
+            amount: cart.total * 100,
+            products: cart.products.map((product) => ({
+              productId: product._id,
+              quantity: product.quantity,
+              color: product.color,
+              size: product.size,
+            })),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.user.token}`,
+            },
+          }
+        );
+
         navigate("/success", { state: { stripeData: res.data, cart: cart } });
       } catch (err) {
         console.error("Error making payment request:", err);
       }
     };
+
     stripeToken && makeRequest();
-  }, [stripeToken, cart.total, navigate, cart.products]);
+  }, [stripeToken, cart.total, navigate, cart.products, user]);
   return (
     <Container>
       <Navbar />

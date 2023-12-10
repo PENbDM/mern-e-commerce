@@ -22,6 +22,9 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.status(500).send("Server is running");
+});
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/products", productRoute);

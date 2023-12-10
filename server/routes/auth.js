@@ -81,17 +81,15 @@ router.post(
         });
       }
       const accessToken = jwt.sign(
-        {
-          id: user._id,
-          isAdmin: user.isAdmin,
-        },
+        { id: user._id, isAdmin: user.isAdmin },
         process.env.JWT_SEC,
         { expiresIn: "3d" }
       );
       //under we making distructure, to take out password from response
       const { password, ...others } = user._doc;
+      others.token = accessToken;
 
-      return res.status(200).json({ ...others, accessToken });
+      res.status(200).json({ user: others });
     } catch (err) {
       return res.status(500).json(err);
     }
