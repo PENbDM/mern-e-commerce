@@ -5,7 +5,7 @@ import {
   AccountCircle,
 } from "@material-ui/icons";
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,6 +13,27 @@ import { Link } from "react-router-dom";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
+
+  ${css`
+    @media screen and (max-width: 605px) {
+      max-width: 700px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 478px) {
+      width: 500px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 479px) {
+      width: 550px;
+    }
+  `}
 `;
 
 const Wrapper = styled.div`
@@ -20,7 +41,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${mobile({ padding: "10px 0px" })}
+  ${mobile({ padding: "15px " })}
 `;
 
 const Left = styled.div`
@@ -29,28 +50,9 @@ const Left = styled.div`
   align-items: center;
 `;
 
-const Language = styled.span`
-  font-size: 14px;
-  cursor: pointer;
-  ${mobile({ display: "none" })}
-`;
-
-const SearchContainer = styled.div`
-  border: 0.5px solid lightgray;
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
-`;
-
-const Input = styled.input`
-  border: none;
-  ${mobile({ width: "50px" })}
-`;
-
 const Center = styled.div`
-  flex: 1;
-  text-align: center;
+text-align: center;
+align-items: center; /* Д
 `;
 
 const Logo = styled.h1`
@@ -62,7 +64,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  ${mobile({ flex: 2, justifyContent: "center" })}
+  ${mobile({})}
 `;
 
 const MenuItem = styled.div`
@@ -71,6 +73,22 @@ const MenuItem = styled.div`
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
+const MenuItemSignIn = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+  ${css`
+    @media screen and (max-width: 663px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+    }
+  `}
+`;
+
 const StyledLink = styled(Link)`
   /* Add your styles here */
   text-decoration: none;
@@ -87,7 +105,6 @@ const Navbar = () => {
   return (
     <Container>
       <Wrapper>
-        <Left></Left>
         <Center>
           <StyledLink to="/">
             {" "}
@@ -102,7 +119,7 @@ const Navbar = () => {
           )}
           {user ? null : (
             <StyledLink to="/login">
-              <MenuItem>SIGN IN</MenuItem>
+              <MenuItemSignIn>SIGN IN</MenuItemSignIn>
             </StyledLink>
           )}
           <StyledLink to="/user">

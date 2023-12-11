@@ -1,11 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { mobile } from "../responsive";
+
 import { BrowserRouter as Router, Link } from "react-router-dom";
 const Container = styled.div`
   flex: 1;
   margin: 3px;
   height: 70vh;
   position: relative;
+  ${css`
+    @media screen and (max-width: 380px) {
+      width: 550px;
+    }
+  `}
 `;
 
 const Image = styled.img`

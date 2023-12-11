@@ -7,13 +7,28 @@ import {
   Room,
   Twitter,
 } from "@material-ui/icons";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
   ${mobile({ flexDirection: "column" })}
+  ${css`
+    @media screen and (max-width: 605px) {
+      max-width: 700px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 479px) {
+      width: 550px;
+    }
+  `}
 `;
 const LinkNoStyle = styled(Link)`
   text-decoration: none;
@@ -56,6 +71,11 @@ const Center = styled.div`
   flex: 1;
   padding: 20px;
   ${mobile({ display: "none" })}
+  ${css`
+    @media screen and (max-width: 605px) {
+      display: none;
+    }
+  `}
 `;
 
 const Title = styled.h3`

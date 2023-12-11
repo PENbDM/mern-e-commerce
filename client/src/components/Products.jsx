@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { popularProducts } from "../data";
 import Product from "./Product";
 import React, { useEffect, useState } from "react";
@@ -10,6 +10,24 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  ${css`
+    @media screen and (max-width: 605px) {
+      max-width: 700px;
+      padding: 20px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+      padding: 20px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 478px) {
+      width: 500px;
+      padding: 20px;
+    }
+  `}
 `;
 
 const Products = ({ category, filters, sort }) => {

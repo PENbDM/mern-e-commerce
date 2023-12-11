@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { sliderItems } from "../data";
 import { mobile } from "../responsive";
 
@@ -9,8 +9,23 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; // Добавьте эту строку
   ${mobile({ display: "none" })}
+  ${css`
+    @media screen and (max-width: 605px) {
+      max-width: 700px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 479px) {
+      width: 550px;
+    }
+  `}
 `;
 
 const Arrow = styled.div`
@@ -45,11 +60,36 @@ const Slide = styled.div`
   display: flex;
   align-items: center;
   background-color: #${(props) => props.bg};
+  ${css`
+    @media screen and (max-width: 605px) {
+      max-width: 700px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 480px) {
+      width: 550px;
+    }
+  `}
 `;
 
 const ImgContainer = styled.div`
   height: 100%;
   flex: 1;
+  ${css`
+    @media screen and (max-width: 660px) {
+      height: 80%;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
+  `}
 `;
 
 const Image = styled.img`
@@ -59,10 +99,20 @@ const Image = styled.img`
 const InfoContainer = styled.div`
   flex: 1;
   padding: 50px;
+  ${css`
+    @media screen and (max-width: 660px) {
+      height: 60%;
+    }
+  `}
 `;
 
 const Title = styled.h1`
   font-size: 70px;
+  ${css`
+    @media screen and (max-width: 660px) {
+      font-size: 50px; /* Изменяем размер текста при ширине экрана менее 660px */
+    }
+  `}
 `;
 
 const Desc = styled.p`
@@ -70,6 +120,11 @@ const Desc = styled.p`
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 3px;
+  ${css`
+    @media screen and (max-width: 660px) {
+      font-size: 15px; /* Изменяем размер текста при ширине экрана менее 660px */
+    }
+  `}
 `;
 
 const Button = styled.button`

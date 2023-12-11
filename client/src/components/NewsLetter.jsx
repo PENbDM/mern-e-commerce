@@ -1,5 +1,5 @@
 import { Send } from "@material-ui/icons";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { mobile } from "../responsive";
 import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
@@ -11,6 +11,22 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  ${css`
+    @media screen and (max-width: 605px) {
+      max-width: 700px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+    }
+  `}
+ 
+  ${css`
+    @media screen and (max-width: 479px) {
+      width: 550px;
+    }
+  `}
 `;
 
 const Title = styled.h1`
