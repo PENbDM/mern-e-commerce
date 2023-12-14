@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import { URL } from "../App";
 import Product from "./Product";
-import MyLoader from "./Skeleton/Skeleton";
+import StyledLoader from "./Skeleton/Skeleton";
 
 const Container = styled.div`
   padding: 20px;
@@ -80,7 +80,7 @@ const Products = ({ category, filters, sort }) => {
   }, [sort]);
 
   const skeletons = [...new Array(10)].map((_, index) => (
-    <MyLoader key={index} />
+    <StyledLoader key={index} />
   ));
 
   return (

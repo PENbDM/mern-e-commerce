@@ -41,10 +41,16 @@
   flex-direction: column;
   min-height: 100vh;
 }
+@media only screen and (max-width: 479px) {
+  .wrapper {
+    width: 550px;
+  }
+}
 .firstBlock {
   flex: 1; /* Allow the first block to grow and take available space */
 }
 .firstBlockNoOrder {
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center; /* Center content horizontally */
@@ -104,6 +110,11 @@
 .alignUser {
   display: flex;
   justify-content: space-between;
+}
+@media only screen and (max-width: 479px) {
+  .alignUser {
+    width: 550px;
+  }
 }
 
 .cartIsEmpty {

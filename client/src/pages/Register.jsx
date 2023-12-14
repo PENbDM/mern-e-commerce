@@ -3,6 +3,7 @@ import { mobile } from "../responsive";
 import { useState } from "react";
 import { register } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -45,7 +46,7 @@ const Wrapper = styled.div`
   `}
   ${css`
     @media screen and (max-width: 430px) {
-      width: 270px;
+      width: 300px;
     }
   `}
 `;
@@ -74,16 +75,35 @@ const Agreement = styled.span`
 `;
 
 const Button = styled.button`
-  width: 40%;
+  width: 200px;
   border: none;
   padding: 15px 20px;
   background-color: teal;
   color: white;
   cursor: pointer;
+  ${css`
+    @media screen and (max-width: 510px) {
+      width: 150px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 430px) {
+      width: 110px;
+    }
+  `}
 `;
 const ErrorMessage = styled.div`
   color: red;
   margin-top: 10px;
+`;
+const StyledLink = styled(Link)`
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -158,7 +178,12 @@ const Register = () => {
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button onClick={handleClick}>CREATE</Button>
+          <ButtonDiv>
+            <Button onClick={handleClick}>CREATE</Button>
+            <StyledLink to="/">
+              <Button>HOME PAGE</Button>
+            </StyledLink>
+          </ButtonDiv>
         </Form>
       </Wrapper>
     </Container>

@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -23,6 +24,11 @@ const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
   background-color: white;
+  ${css`
+    @media screen and (max-width: 1647px) {
+      width: 600px;
+    }
+  `}
   ${css`
     @media screen and (max-width: 920px) {
       width: 550px;
@@ -68,21 +74,30 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  width: 40%;
+  width: 200px;
   border: none;
   padding: 15px 20px;
   background-color: teal;
   color: white;
   cursor: pointer;
-  margin-bottom: 10px;
-  &:disabled {
-    color: green;
-    cursor: not-allowed;
-  }
+  ${css`
+    @media screen and (max-width: 1647px) {
+      width: 150px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 510px) {
+      width: 150px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 430px) {
+      width: 110px;
+    }
+  `}
 `;
 
-const Link = styled.a`
-  margin: 5px 0px;
+const StyledLink = styled(Link)`
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
@@ -93,7 +108,10 @@ const Error = styled.span`
   margin-top: 2px;
   margin-bottom: 7px;
 `;
-
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -134,15 +152,18 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
           <Error>{getErrorMessage("username")}</Error>
-
           <Input
             placeholder="password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
           <Error>{getErrorMessage("password")}</Error>
-
-          <Button onClick={handleClick}>LOGIN</Button>
+          <ButtonDiv>
+            <Button onClick={handleClick}>CREATE</Button>
+            <StyledLink to="/">
+              <Button>HOME PAGE</Button>
+            </StyledLink>
+          </ButtonDiv>{" "}
         </Form>
       </Wrapper>
     </Container>

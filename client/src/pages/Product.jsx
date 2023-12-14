@@ -194,9 +194,7 @@ const Product = () => {
       try {
         const res = await axios.get(`${URL}/products/find/` + id);
         setProduct(res.data);
-        setLoading(false); // Установим loading в false в случае ошибки
       } catch (error) {}
-      setLoading(false); // Установим loading в false в случае ошибки
     };
     getProduct();
     window.scrollTo(0, 0);
