@@ -33,7 +33,7 @@ function User() {
 
   const getProductDetails = async (productId) => {
     try {
-      const res = await axios.get(`${URL}/products/find/${productId}`, {
+      const res = await axios.get(`${vercelURL}/products/find/${productId}`, {
         headers: {
           Authorization: `Bearer ${user.user.token}`,
         },
@@ -48,7 +48,7 @@ function User() {
   useEffect(() => {
     const getOrder = async () => {
       try {
-        const res = await axios.get(`${URL}/orders/find/${user.user._id}`, {
+        const res = await axios.get(`${vercelURL}/orders/find/${user.user._id}`, {
           headers: {
             Authorization: `Bearer ${user.user.token}`,
           },
