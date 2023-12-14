@@ -233,7 +233,7 @@ const Cart = () => {
     const makeRequest = async () => {
       try {
         const res = await axios.post(
-          `${URL}/checkout/payment`,
+          `${vercelURL}/checkout/payment`,
           {
             tokenId: stripeToken.id,
             amount: cart.total * 100,
