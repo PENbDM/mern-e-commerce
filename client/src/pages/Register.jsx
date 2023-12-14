@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { mobile } from "../responsive";
 import { useState } from "react";
 import { register } from "../redux/apiCalls";
@@ -23,7 +23,31 @@ const Wrapper = styled.div`
   width: 40%;
   padding: 20px;
   background-color: white;
-  ${mobile({ width: "75%" })}
+  ${css`
+    @media screen and (max-width: 920px) {
+      width: 550px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 710px) {
+      width: 450px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 575px) {
+      width: 420px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      width: 350px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 430px) {
+      width: 270px;
+    }
+  `}
 `;
 
 const Title = styled.h1`

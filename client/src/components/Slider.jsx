@@ -9,7 +9,7 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   position: relative;
-  overflow: hidden; // Добавьте эту строку
+  overflow: hidden;
   ${mobile({ display: "none" })}
   ${css`
     @media screen and (max-width: 605px) {
@@ -22,7 +22,7 @@ const Container = styled.div`
     }
   `}
   ${css`
-    @media screen and (max-width: 479px) {
+    @media screen and (max-width: 478px) {
       width: 550px;
     }
   `}
@@ -45,6 +45,9 @@ const Arrow = styled.div`
   cursor: pointer;
   opacity: 0.5;
   z-index: 2;
+  @media screen and (max-width: 479px) {
+    display: none;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -60,6 +63,8 @@ const Slide = styled.div`
   display: flex;
   align-items: center;
   background-color: #${(props) => props.bg};
+  overflow: hidden; /* Добавляем эту строку для скрытия части слайда */
+
   ${css`
     @media screen and (max-width: 605px) {
       max-width: 700px;
@@ -70,9 +75,9 @@ const Slide = styled.div`
       max-width: 600px;
     }
   `}
-${css`
-    @media screen and (max-width: 480px) {
-      width: 550px;
+  ${css`
+    @media screen and (max-width: 478px) {
+      width: 600px;
     }
   `}
 `;
@@ -94,6 +99,22 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   height: 80%;
+  ${css`
+    @media screen and (max-width: 1120px) {
+      height: 70%;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 1042px) {
+      height: 70%;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 480px) {
+      height: 100%;
+      object-fit: cover; /* Добавляем эту строку для корректного отображения изображения */
+    }
+  `}
 `;
 
 const InfoContainer = styled.div`
@@ -110,7 +131,7 @@ const Title = styled.h1`
   font-size: 70px;
   ${css`
     @media screen and (max-width: 660px) {
-      font-size: 50px; /* Изменяем размер текста при ширине экрана менее 660px */
+      font-size: 50px;
     }
   `}
 `;
@@ -122,7 +143,7 @@ const Desc = styled.p`
   letter-spacing: 3px;
   ${css`
     @media screen and (max-width: 660px) {
-      font-size: 15px; /* Изменяем размер текста при ширине экрана менее 660px */
+      font-size: 15px;
     }
   `}
 `;
@@ -130,17 +151,23 @@ const Desc = styled.p`
 const Button = styled.button`
   padding: 10px;
   font-size: 20px;
-  background-color: transparent;
+  background-color: teal;
+  color: white;
   cursor: pointer;
 `;
 
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
+
   const handleClick = (direction) => {
     if (direction === "left") {
-      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+      setSlideIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : sliderItems.length - 1
+      );
     } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      setSlideIndex((prevIndex) =>
+        prevIndex < sliderItems.length - 1 ? prevIndex + 1 : 0
+      );
     }
   };
 

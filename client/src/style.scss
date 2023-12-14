@@ -105,3 +105,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.cartIsEmpty {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+}

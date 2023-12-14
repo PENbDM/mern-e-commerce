@@ -1,38 +1,36 @@
-import styled, { css } from "styled-components";
-import { popularProducts } from "../data";
-import Product from "./Product";
 import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 import axios from "axios";
-import { vercelURL } from "../App";
 import { URL } from "../App";
+import Product from "./Product";
+import MyLoader from "./Skeleton/Skeleton";
+
 const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  ${css`
-    @media screen and (max-width: 605px) {
-      max-width: 700px;
-      padding: 20px;
-    }
-  `}
-  ${css`
-    @media screen and (max-width: 500px) {
-      max-width: 600px;
-      padding: 20px;
-    }
-  `}
-${css`
-    @media screen and (max-width: 478px) {
-      width: 500px;
-      padding: 20px;
-    }
-  `}
+
+  @media screen and (max-width: 605px) {
+    max-width: 700px;
+    padding: 20px;
+  }
+
+  @media screen and (max-width: 500px) {
+    max-width: 600px;
+    padding: 20px;
+  }
+
+  @media screen and (max-width: 478px) {
+    width: 500px;
+    padding: 20px;
+  }
 `;
 
 const Products = ({ category, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -41,10 +39,15 @@ const Products = ({ category, filters, sort }) => {
           category ? `${URL}/products?category=${category}` : `${URL}/products`
         );
         setProducts(response.data);
-      } catch (err) {}
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     getProducts();
   }, [category]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [category, filters, sort]);
@@ -59,6 +62,7 @@ const Products = ({ category, filters, sort }) => {
         )
       );
   }, [products, category, filters]);
+
   useEffect(() => {
     if (sort === "newest") {
       setFilteredProducts((prev) =>
@@ -75,9 +79,15 @@ const Products = ({ category, filters, sort }) => {
     }
   }, [sort]);
 
+  const skeletons = [...new Array(10)].map((_, index) => (
+    <MyLoader key={index} />
+  ));
+
   return (
     <Container>
-      {category
+      {loading
+        ? skeletons
+        : category
         ? filteredProducts.map((item) => <Product item={item} key={item.id} />)
         : products
             .slice(0, 8)

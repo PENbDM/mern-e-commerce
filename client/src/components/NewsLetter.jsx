@@ -82,6 +82,7 @@ const Button = styled.button`
   border: none;
   background-color: teal;
   color: white;
+  cursor: pointer;
 `;
 
 const Popup = styled.div`
@@ -108,10 +109,14 @@ const Newsletter = () => {
   const [message, setMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const form = useRef();
+  const [error, setError] = useState("");
 
   const sendEmail = async (e) => {
     e.preventDefault();
-
+    if (!email || !message) {
+      setError("Please fill in all fields");
+      return;
+    }
     try {
       const result = await emailjs.sendForm(
         "service_e3m9z3r",
@@ -134,6 +139,7 @@ const Newsletter = () => {
 
   const closePopup = () => {
     setShowPopup(false);
+    setError("");
 
     // Delay the form reset to ensure it happens after the popup is hidden
     setTimeout(() => {
@@ -167,6 +173,7 @@ const Newsletter = () => {
         <Button type="submit">
           <Send />
         </Button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </Container>
       {showPopup ? (
         <Popup showPopup={showPopup}>

@@ -1,5 +1,5 @@
-import { Add, Remove } from "@material-ui/icons";
-import styled from "styled-components";
+import { Add, Remove, ShoppingCart } from "@material-ui/icons";
+import styled, { css } from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { userRequest } from "../requestMethods";
 import { vercelURL } from "../App";
+import "../style.scss";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -26,6 +27,34 @@ const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
   ${mobile({ padding: "10px" })}
+  ${css`
+    @media screen and (max-width: 480px) {
+      display: flex;
+      flex-direction: column;
+      width: 530px;
+    }
+  `}
+`;
+const Info = styled.div`
+  flex: 3;
+  ${css`
+    @media screen and (max-width: 380px) {
+      padding-bottom: 20px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 950px) {
+      display: flex;
+      flex-direction: column;
+    }
+  `}
+`;
+const Summary = styled.div`
+  flex: 1;
+  border: 0.5px solid lightgray;
+  border-radius: 10px;
+  padding: 20px;
+  height: 50vh;
 `;
 
 const Title = styled.h1`
@@ -63,10 +92,11 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: "column" })}
-`;
-
-const Info = styled.div`
-  flex: 3;
+  ${css`
+    @media screen and (max-width: 950px) {
+      flex-direction: column;
+    }
+  `}
 `;
 
 const Product = styled.div`
@@ -74,6 +104,13 @@ const Product = styled.div`
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: "column" })}
+  ${css`
+    @media screen and (max-width: 950px) {
+      padding-top: 10px;
+      flex-direction: column;
+      align-items: center;
+    }
+  `}
 `;
 
 const ProductDetail = styled.div`
@@ -138,14 +175,6 @@ const Hr = styled.hr`
   height: 1px;
 `;
 
-const Summary = styled.div`
-  flex: 1;
-  border: 0.5px solid lightgray;
-  border-radius: 10px;
-  padding: 20px;
-  height: 50vh;
-`;
-
 const SummaryTitle = styled.h1`
   font-weight: 200;
 `;
@@ -165,16 +194,28 @@ const SummaryItemPrice = styled.span``;
 const Button = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: black;
+  background-color: ${(props) => (props.disabled ? "gray" : "black")};
   color: white;
   font-weight: 600;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 `;
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const URL = "http://localhost:5000/api";
-
+  const handleClickCheckout = () => {
+    if (!user) {
+      // Если пользователь не авторизован, покажем сообщение об ошибке
+      alert("You need to log in to proceed with the checkout.");
+      // Тут вы можете также редиректнуть пользователя на страницу авторизации
+      // Пример: navigate("/login");
+    } else {
+      // Если пользователь авторизован, выполните остальную логику
+      // Тут вы можете запустить StripeCheckout или другую логику оформления заказа
+      // ...
+    }
+  };
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -240,7 +281,7 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart && cart.products ? (
+            {cart && cart.products && cart.products.length > 0 ? (
               cart.products.map((product) => (
                 <Product>
                   <ProductDetail>
@@ -267,39 +308,17 @@ const Cart = () => {
                       />
                     </ProductAmountContainer>
                     <ProductPrice>
-                      {product.price * product.quantity}
+                      {product.price * product.quantity}$
                     </ProductPrice>
                   </PriceDetail>
                 </Product>
               ))
             ) : (
-              <Product>
-                <ProductDetail>
-                  <Image />
-                  <Details>
-                    <ProductName>
-                      <b>Product:</b>
-                    </ProductName>
-                    <ProductId>
-                      <b>ID:</b>
-                    </ProductId>
-                    <ProductColor />
-                    <ProductSize>
-                      <b>Size:</b>
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <Add />
-                    <ProductAmount></ProductAmount>
-                    <Remove />
-                  </ProductAmountContainer>
-                  <ProductPrice></ProductPrice>
-                </PriceDetail>
-              </Product>
+              <div className="cartIsEmpty">
+                <ShoppingCart style={{ fontSize: "200px" }}></ShoppingCart>
+                <div>Your cart is empty</div>
+              </div>
             )}
-
             <Hr />
           </Info>
           {cart && cart.products ? (
@@ -336,7 +355,9 @@ const Cart = () => {
                 token={onToken}
                 stripeKey={Key_Stripe}
               >
-                <Button>CHECKOUT NOW</Button>
+                <Button disabled={cart.products.length === 0 || user === null}>
+                  CHECKOUT NOW
+                </Button>
               </StripeCheckout>
             </Summary>
           ) : (

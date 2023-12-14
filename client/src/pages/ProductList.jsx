@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Products from "../components/Products";
@@ -17,11 +17,37 @@ const Title = styled.h1`
 const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  ${css`
+    @media screen and (max-width: 694px) {
+      width: 100%;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 620px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 479px) {
+      width: 550px;
+    }
+  `}
 `;
 
 const Filter = styled.div`
   margin: 20px;
   ${mobile({ width: "0px 20px", display: "flex", flexDirection: "column" })}
+  ${css`
+    @media screen and (max-width: 620px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  `}
 `;
 
 const FilterText = styled.span`
@@ -29,12 +55,34 @@ const FilterText = styled.span`
   font-weight: 600;
   margin-right: 20px;
   ${mobile({ marginRight: "0px" })}
+  ${css`
+    @media screen and (max-width: 620px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  `}
 `;
 
 const Select = styled.select`
   padding: 10px;
   margin-right: 20px;
   ${mobile({ margin: "10px 0px" })}
+  ${css`
+    @media screen and (max-width: 694px) {
+      display: flex;
+      justify-content: flex-end;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 620px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  `}
 `;
 const Option = styled.option``;
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,31 @@ const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
   background-color: white;
-  ${mobile({ width: "75%" })}
+  ${css`
+    @media screen and (max-width: 920px) {
+      width: 550px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 710px) {
+      width: 450px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 575px) {
+      width: 420px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 500px) {
+      width: 350px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 430px) {
+      width: 270px;
+    }
+  `}
 `;
 
 const Title = styled.h1`
@@ -119,9 +143,6 @@ const Login = () => {
           <Error>{getErrorMessage("password")}</Error>
 
           <Button onClick={handleClick}>LOGIN</Button>
-
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
         </Form>
       </Wrapper>
     </Container>

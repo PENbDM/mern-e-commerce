@@ -1,5 +1,4 @@
 import { Add, Remove } from "@material-ui/icons";
-import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -13,30 +12,69 @@ import { addProducts, updateTotalQuantity } from "../redux/cartRedux";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { vercelURL } from "../App";
-
+import styled, { css } from "styled-components";
+import MyLoader2 from "../components/Skeleton/Skeleton2";
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobile({ padding: "10px", flexDirection: "column" })}
+  ${mobile({ flexDirection: "column" })}
+  ${css`
+    @media screen and (max-width: 1000px) {
+      display: flex;
+      flex-direction: column;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 500px) {
+      max-width: 600px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 478px) {
+      width: 500px;
+    }
+  `}
+${css`
+    @media screen and (max-width: 479px) {
+      width: 550px;
+    }
+  `}
+  ${css`
+    @media screen and (max-width: 478px) {
+      width: 450px;
+    }
+  `}
 `;
 
 const ImgContainer = styled.div`
   flex: 1;
+  ${css`
+    @media screen and (max-width: 1000px) {
+      padding-bottom: 80px;
+    }
+  `}
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 90vh;
   object-fit: cover;
-  ${mobile({ height: "40vh" })}
+  ${mobile({ height: "70vh" })}
 `;
 
 const InfoContainer = styled.div`
   flex: 1;
   padding: 0px 50px;
   ${mobile({ padding: "10px" })}
+  ${css`
+    @media screen and (max-width: 1000px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  `}
 `;
 
 const Title = styled.h1`
@@ -58,6 +96,14 @@ const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   ${mobile({ width: "100%" })}
+  ${css`
+    @media screen and (max-width: 700px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 10px;
+    }
+  `}
 `;
 
 const Filter = styled.div`
@@ -92,6 +138,11 @@ const AddContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   ${mobile({ width: "100%" })}
+  ${css`
+    @media screen and (max-width: 700px) {
+      width: 100%;
+    }
+  `}
 `;
 
 const AmountContainer = styled.div`
@@ -131,6 +182,8 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
+  const [loading, setLoading] = useState(true); // Добавлено состояние loading
+
   const URL = "http://localhost:5000/api";
 
   console.log(quantity);
@@ -141,7 +194,9 @@ const Product = () => {
       try {
         const res = await axios.get(`${URL}/products/find/` + id);
         setProduct(res.data);
+        setLoading(false); // Установим loading в false в случае ошибки
       } catch (error) {}
+      setLoading(false); // Установим loading в false в случае ошибки
     };
     getProduct();
     window.scrollTo(0, 0);
@@ -171,48 +226,59 @@ const Product = () => {
       <Navbar />
       <Announcement />
       <Wrapper>
-        <ImgContainer>
-          <Image src={product.img} />
-        </ImgContainer>
-        <InfoContainer>
-          <Title>{product.title}</Title>
-          <Desc>{product.desc}</Desc>
-          <Price>{product.price} $</Price>
-          <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
-              {product.color?.map((c) => (
-                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
-              ))}
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize
-                onChange={(e) => {
-                  setSize(e.target.value);
-                  // Теперь после установки размера, также устанавливаем значение size
-                  // С этим изменением, выбранный размер сразу же будет отображаться в состоянии size
-                  setSize(e.target.value);
-                }}
-              >
-                <FilterSizeOption value="none">Select Size</FilterSizeOption>
-                {product.size?.map((s) => (
-                  <FilterSizeOption key={s} value={s}>
-                    {s}
-                  </FilterSizeOption>
-                ))}
-              </FilterSize>
-            </Filter>
-          </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <Remove onClick={() => handleQuantity("dec")} />
-              <Amount>{quantity}</Amount>
-              <Add onClick={() => handleQuantity("inc")} />
-            </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
-          </AddContainer>
-        </InfoContainer>
+        {loading ? (
+          // Рендер MyLoader во время загрузки данных
+          <MyLoader2 />
+        ) : (
+          <>
+            <ImgContainer>
+              <Image src={product.img} />
+            </ImgContainer>
+            <InfoContainer>
+              <Title>{product.title}</Title>
+              <Desc>{product.desc}</Desc>
+              <Price>{product.price} $</Price>
+              <FilterContainer>
+                <Filter>
+                  <FilterTitle>Color</FilterTitle>
+                  {product.color?.map((c) => (
+                    <FilterColor
+                      color={c}
+                      key={c}
+                      onClick={() => setColor(c)}
+                    />
+                  ))}
+                </Filter>
+                <Filter>
+                  <FilterTitle>Size</FilterTitle>
+                  <FilterSize
+                    onChange={(e) => {
+                      setSize(e.target.value);
+                      setSize(e.target.value);
+                    }}
+                  >
+                    <FilterSizeOption value="none">
+                      Select Size
+                    </FilterSizeOption>
+                    {product.size?.map((s) => (
+                      <FilterSizeOption key={s} value={s}>
+                        {s}
+                      </FilterSizeOption>
+                    ))}
+                  </FilterSize>
+                </Filter>
+              </FilterContainer>
+              <AddContainer>
+                <AmountContainer>
+                  <Remove onClick={() => handleQuantity("dec")} />
+                  <Amount>{quantity}</Amount>
+                  <Add onClick={() => handleQuantity("inc")} />
+                </AmountContainer>
+                <Button onClick={handleClick}>ADD TO CART</Button>
+              </AddContainer>
+            </InfoContainer>
+          </>
+        )}
       </Wrapper>
       <Newsletter />
       <Footer />
