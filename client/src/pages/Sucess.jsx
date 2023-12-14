@@ -27,7 +27,7 @@ const Success = () => {
       try {
         // Add null checks before accessing nested properties
         const res = await axios.post(
-          `${URL}/orders`,
+          `${vercelURL}/orders`,
           {
             userId: currentUser._id,
             products: cart.products.map((item) => ({
