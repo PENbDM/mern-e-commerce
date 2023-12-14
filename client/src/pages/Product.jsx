@@ -192,7 +192,7 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await axios.get(`${URL}/products/find/` + id);
+        const res = await axios.get(`${vercelURL}/products/find/` + id);
         setProduct(res.data);
       } catch (error) {}
     };
