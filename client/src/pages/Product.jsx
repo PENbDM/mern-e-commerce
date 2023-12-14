@@ -194,7 +194,10 @@ const Product = () => {
       try {
         const res = await axios.get(`${vercelURL}/products/find/` + id);
         setProduct(res.data);
+                setLoading(false);
       } catch (error) {}
+              setLoading(false);
+
     };
     getProduct();
     window.scrollTo(0, 0);
