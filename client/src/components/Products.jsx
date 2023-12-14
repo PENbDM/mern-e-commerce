@@ -40,7 +40,9 @@ const Products = ({ category, filters, sort }) => {
           category ? `${vercelURL}/products?category=${category}` : `${vercelURL}/products`
         );
         setProducts(response.data);
+                setLoading(false);
       } catch (err) {
+                setLoading(false);
         console.error("Error fetching products:", err);
       } finally {
         setLoading(false);
