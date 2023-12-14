@@ -4,6 +4,7 @@ import axios from "axios";
 import { URL } from "../App";
 import Product from "./Product";
 import StyledLoader from "./Skeleton/Skeleton";
+import { vercelURL } from "../App";
 
 const Container = styled.div`
   padding: 20px;
@@ -36,7 +37,7 @@ const Products = ({ category, filters, sort }) => {
     const getProducts = async () => {
       try {
         const response = await axios.get(
-          category ? `${URL}/products?category=${category}` : `${URL}/products`
+          category ? `${vercelURL}/products?category=${category}` : `${vercelURL}/products`
         );
         setProducts(response.data);
       } catch (err) {
