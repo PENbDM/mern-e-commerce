@@ -162,7 +162,8 @@ const Login = () => {
           />
           <Error>{getErrorMessage("password")}</Error>
           <Agreement>
-           DEMO-version username: demo123  password:demo123DEMO <b/>
+          username: demo123  <br/>
+          password: demo123DEMO <b/>
           </Agreement>
           <ButtonDiv>
             <Button onClick={handleClick}>SIGN IN</Button>
