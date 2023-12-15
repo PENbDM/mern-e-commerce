@@ -158,8 +158,11 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Error>{getErrorMessage("password")}</Error>
+          <Agreement>
+           DEMO-version username: demo123  password:demo123DEMO <b/>
+          </Agreement>
           <ButtonDiv>
-            <Button onClick={handleClick}>CREATE</Button>
+            <Button onClick={handleClick}>SIGN IN</Button>
             <StyledLink to="/">
               <Button>HOME PAGE</Button>
             </StyledLink>
