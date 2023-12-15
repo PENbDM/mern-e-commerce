@@ -19,7 +19,10 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
+const Agreement = styled.span`
+  font-size: 12px;
+  margin: 20px 0px;
+`;
 const Wrapper = styled.div`
   width: 25%;
   padding: 20px;
